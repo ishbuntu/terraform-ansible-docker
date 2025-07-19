@@ -82,10 +82,6 @@ The Flask application is:
 
 - Add CI/CD pipeline with GitHub Actions
 - Implement monitoring with Prometheus and Grafana
-- Add HTTPS with Let's Encrypt
 - Implement container orchestration with Kubernetes
 - Add database integration
 
-## Access
-
-The application is currently accessible at: http://3.255.104.213/
