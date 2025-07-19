@@ -2,6 +2,7 @@
 ansible/inventory.ini
 ansible/vault_password.txt
 ansible/*.retry
+ansible/ansible.cfg
 
 # Terraform sensitive files
 terraform/.terraform/
