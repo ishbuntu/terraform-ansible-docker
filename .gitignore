@@ -1,0 +1,44 @@
+# Ansible sensitive files
+ansible/inventory.ini
+ansible/vault_password.txt
+ansible/*.retry
+
+# Terraform sensitive files
+terraform/.terraform/
+terraform/*.tfstate
+terraform/*.tfstate.backup
+terraform/.terraform.lock.hcl
+terraform/terraform.tfvars
+terraform/*.tfvars.json
+terraform/crash.log
+terraform/override.tf
+terraform/override.tf.json
+terraform/*_override.tf
+terraform/*_override.tf.json
+
+# Local .terraform directories
+**/.terraform/*
+
+# Terraform state files
+terraform/terraform.tfstate.d/*/terraform.tfstate
+terraform/terraform.tfstate.d/*/terraform.tfstate.backup
+
+# Logs
+*.log
+
+# Local environment files
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# IDE files
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# OS files
+.DS_Store
+Thumbs.db
