@@ -1,0 +1,25 @@
+---
+
+#### This file is least precedence and only falls back on these VARS if ansible cannot fetch vars elsewhere
+#
+# In this case ansible cannot fetch the config_dirs for some reason but these ensure ansible still has these vars to fall back on to execute
+
+
+# GitLab directories
+gitlab_config_dir: "/srv/gitlab/config"
+gitlab_logs_dir: "/srv/gitlab/logs"
+gitlab_data_dir: "/srv/gitlab/data"
+
+# GitLab Docker settings
+gitlab_image: "gitlab/gitlab-ce:latest"
+gitlab_container_name: "gitlab"
+gitlab_hostname: "gitlab.ish"
+gitlab_external_url: "http://gitlab.ish"
+
+# GitLab ports 
+gitlab_http_port: 80
+gitlab_https_port: 443
+gitlab_ssh_port: 2222
+
+# Docker compose configuration
+docker_compose_file: "/srv/gitlab/docker-compose.yml"

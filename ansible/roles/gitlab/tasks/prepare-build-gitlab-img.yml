@@ -1,0 +1,25 @@
+---
+
+- name: Ensure GitLab config directories exist
+  file:
+    path: "{{ item }}"
+    state: directory
+    mode: '0755'
+  loop:
+    - "{{ gitlab_config_dir }}"
+    - "{{ gitlab_logs_dir }}"
+    - "{{ gitlab_data_dir }}"
+
+- name: Deploy GitLab with Docker Compose
+  template:
+    src: docker-compose-gitlab.yml.j2
+    dest: "{{ docker_compose_file }}"
+
+- name: Start GitLab
+  community.docker.docker_compose_v2:
+    project_src: "{{ docker_compose_file | dirname }}"
+    state: present
+    remove_orphans: yes
+
+
+

@@ -1,0 +1,8 @@
+---
+- name: Provision Dockerized Web App
+  hosts: webserver 
+  become: yes
+  roles:
+    - common
+    - docker 
+    - webserver 

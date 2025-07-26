@@ -7,6 +7,17 @@ variable "ami_id" {
   }
 }
 
+variable "module_name" {
+  type    = string
+  default = "gitlab-runner"
+}
+
+variable "key_dir" {
+  type    = string
+  default = "runner"
+  description = "Directory name where SSH keys are stored"
+}
+
 variable "instance_type" {
   type = map(string)
   default = {
@@ -16,22 +27,12 @@ variable "instance_type" {
   }
 }
 
-variable "module_name" {
-  type    = string
-  default = "web-app-al2"
-}
-
-variable "key_dir" {
-  type    = string
-  default = "webapp"
-  description = "Directory name where SSH keys are stored"
-}
-
 variable "keys_base_path" {
   type    = string
   default = "/local/home/ghaniis/ans-terra/keys/"
 }
 
-variable "security_group_ids" {
+variable "vpc_security_group_ids" {
   type = list(string)
 }
+

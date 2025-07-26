@@ -1,0 +1,22 @@
+# GitLab Runner Configuration
+gitlab_runner_token: "to-be-added"
+
+# GitLab Runner Docker settings
+gitlab_runner_image: "gitlab/gitlab-runner:latest"
+gitlab_runner_container_name: "gitlab-runner"
+
+# GitLab Runner directories
+gitlab_runner_config_dir: "/srv/gitlab-runner/config"
+
+# Runner registration settings
+gitlab_runner_url: "http://gitlab.local"
+gitlab_runner_description: "Docker Runner"
+gitlab_runner_executor: "docker"
+gitlab_runner_docker_image: "alpine:latest"
+
+# Runner configuration
+gitlab_runner_concurrent: 1
+gitlab_runner_check_interval: 0
+
+# Docker compose configuration
+docker_compose_file: "docker-compose_gitlab-runner.yml.j2"

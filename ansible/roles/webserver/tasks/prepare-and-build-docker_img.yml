@@ -1,0 +1,26 @@
+---
+- name: Copy app files to server
+  copy:
+    src: "{{ project_root }}/docker-app/"
+    dest: "/home/{{ user }}/docker-app"
+    owner: "{{ user }}"
+    group: "{{ user_group }}"
+    mode: '0755'
+
+- name: Build Docker image
+  docker_image:
+    name: myapp
+    build:
+      path: "/home/{{ user }}/docker-app"
+    source: build
+    state: present
+
+- name: Run Docker container
+  docker_container:
+    name: myapp
+    image: myapp
+    state: started
+    ports:
+      - "{{ host_port }}:{{ app_port }}"
+    restart_policy: always
+

@@ -1,7 +1,0 @@
-[defaults]
-inventory = inventory.yml
-remote_user = ec2-user
-private_key_file = /path/to/your/private/key
-
-[ssh_conn_settings]
-timeout = 30

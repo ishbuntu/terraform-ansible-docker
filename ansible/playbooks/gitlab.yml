@@ -1,0 +1,8 @@
+---
+- name: Provision 
+  hosts: gitlab
+  become: yes
+  roles:
+    - common
+    - docker
+    - gitlab

@@ -1,0 +1,9 @@
+# Global infra settings
+timezone: "UTC"
+system_packages:
+  - git
+  - curl
+  - vim 
+
+host_port: 80
+app_port: 5000

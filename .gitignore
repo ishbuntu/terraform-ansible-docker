@@ -43,3 +43,9 @@ terraform/terraform.tfstate.d/*/terraform.tfstate.backup
 # OS files
 .DS_Store
 Thumbs.db
+
+# SSH Keys
+keys/
+
+# GitLab hosted creds
+gitlab-creds/

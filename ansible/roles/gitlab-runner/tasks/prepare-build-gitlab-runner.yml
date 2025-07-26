@@ -1,0 +1,19 @@
+---
+- name: Ensure GitLab Runner config directory exists
+  file:
+    path: "{{ gitlab_runner_config_dir }}"
+    state: directory
+    mode: '0755'
+
+- name: Deploy GitLab Runner with Docker Compose
+  template:
+    src: docker-compose-runner.yml.j2
+    dest: "{{ docker_compose_file }}"
+
+- name: Start GitLab Runner
+  community.docker.docker_compose_v2:
+    project_src: "{{ docker_compose_file | dirname }}"
+    restarted: true
+    remove_orphans: yes
+    pull: yes
+

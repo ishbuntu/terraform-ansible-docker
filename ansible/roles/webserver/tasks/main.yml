@@ -1,0 +1,4 @@
+---
+- name: Prepare webserver host - [copy files to remote host] && [build docker image] && [start container]
+  include_tasks: prepare-and-build-docker_img.yml 
+
