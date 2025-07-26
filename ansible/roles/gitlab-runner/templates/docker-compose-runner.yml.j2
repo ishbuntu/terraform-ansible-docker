@@ -1,0 +1,17 @@
+---
+services:
+  gitlab-runner:
+    image: {{ gitlab_runner_image }}
+    container_name: {{ gitlab_runner_container_name }}
+    restart: always
+    volumes:
+      - '{{ gitlab_runner_config_dir }}:/etc/gitlab-runner'
+      - '/var/run/docker.sock:/var/run/docker.sock'
+    environment:
+      - DOCKER_HOST=unix:///var/run/docker.sock
+    networks:
+      - gitlab-runner-network
+
+networks:
+  gitlab-runner-network:
+    driver: bridge

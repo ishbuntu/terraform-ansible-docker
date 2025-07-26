@@ -1,0 +1,8 @@
+stages:
+  - test
+
+test-runner:
+  stage: test
+  script:
+    - echo "✅ CI is working! Running on $(uname -a)"
+
