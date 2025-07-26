@@ -1,6 +1,7 @@
 ---
 - name: Provision and configure Gitlab runner
   hosts: gitlab-runner
+  remote_user: ec2-user
   become: yes
   roles:
     - common
