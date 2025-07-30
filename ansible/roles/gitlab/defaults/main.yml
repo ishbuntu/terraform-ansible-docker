@@ -13,8 +13,8 @@ gitlab_data_dir: "/srv/gitlab/data"
 # GitLab Docker settings
 gitlab_image: "gitlab/gitlab-ce:latest"
 gitlab_container_name: "gitlab"
-gitlab_hostname: "gitlab.ish"
-gitlab_external_url: "http://gitlab.ish"
+gitlab_hostname: "13.38.104.2"
+gitlab_external_url: "http://13.38.104.2"
 
 # GitLab ports 
 gitlab_http_port: 80

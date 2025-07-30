@@ -1,6 +1,6 @@
-# GitLab Server Configuration
-gitlab_hostname: "gitlab.ish"
-gitlab_external_url: "http://gitlab.ish"
+# GitLab Server Configuration - Dynamic IP from inventory
+gitlab_hostname: "{{ gitlab_server_ip }}"
+gitlab_external_url: "http://{{ gitlab_server_ip }}"
 # GitLab Docker settings
 gitlab_image: "gitlab/gitlab-ce:latest"
 gitlab_container_name: "gitlab"
@@ -13,7 +13,7 @@ gitlab_data_dir: "/srv/gitlab/data"
 # GitLab ports 
 gitlab_http_port: 80
 gitlab_https_port: 443
-gitlab_ssh_port: 22
+gitlab_ssh_port: 2222
 
 # Docker compose configuration
-docker_compose_file: "docker-compose_gitlab.yml.j2"
+docker_compose_file: "/srv/gitlab/docker-compose.yml"

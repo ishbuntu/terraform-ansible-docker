@@ -16,7 +16,7 @@ services:
       - /srv/gitlab/data:/var/opt/gitlab
     environment:
       GITLAB_OMNIBUS_CONFIG: |
-        external_url 'http://gitlab.local'
+        external_url 'http://13.38.104.2'
         gitlab_rails['gitlab_shell_ssh_port'] = 22
 
   gitlab-runner:

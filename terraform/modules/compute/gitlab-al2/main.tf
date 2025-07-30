@@ -9,6 +9,11 @@ resource "aws_instance" "gitlab" {
   key_name               = aws_key_pair.my_key.key_name
   vpc_security_group_ids = var.vpc_security_group_ids
 
+  root_block_device {
+    volume_size           = var.volume_size
+    volume_type           = var.volume_tyoe
+    delete_on_termination = true
+  }
   tags = {
     Name = "${var.module_name}-${terraform.workspace}"
   }

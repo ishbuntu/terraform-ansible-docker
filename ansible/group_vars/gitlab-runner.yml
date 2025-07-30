@@ -8,8 +8,8 @@ gitlab_runner_container_name: "gitlab-runner"
 # GitLab Runner directories
 gitlab_runner_config_dir: "/srv/gitlab-runner/config"
 
-# Runner registration settings
-gitlab_runner_url: "http://13.38.104.2"  # Updated to use IP address
+# Runner registration settings - Dynamic GitLab server reference
+gitlab_runner_url: "http://{{ gitlab_server_ip }}"
 gitlab_runner_description: "Docker Runner for portfolio-ans-terra-docker"
 gitlab_runner_executor: "docker"
 gitlab_runner_docker_image: "alpine:latest"

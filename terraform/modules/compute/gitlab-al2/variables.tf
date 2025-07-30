@@ -13,8 +13,8 @@ variable "module_name" {
 }
 
 variable "key_dir" {
-  type    = string
-  default = "gitlab"
+  type        = string
+  default     = "gitlab"
   description = "Directory name where SSH keys are stored"
 }
 
@@ -23,10 +23,19 @@ variable "instance_type" {
   default = {
     test = "t3.small"
     dev  = "t3.medium"
-    prod = "t3.large"
+    prod = "t3.xlarge"
   }
 }
 
+variable "volume_size" {
+  type    = number
+  default = 100
+}
+
+variable "volume_tyoe" {
+  type    = string
+  default = "gp3"
+}
 variable "keys_base_path" {
   type    = string
   default = "/local/home/ghaniis/ans-terra/keys/"
