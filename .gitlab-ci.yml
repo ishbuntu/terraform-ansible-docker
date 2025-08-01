@@ -4,5 +4,5 @@ stages:
 test-runner:
   stage: test
   script:
-    - echo "✅ CI is working! Running on $(uname -a)"
+    - echo "✅ CI is working!!! Running on $(uname -a)"
 
