@@ -1,5 +1,5 @@
 # GitLab Runner Configuration
-gitlab_runner_token: "GR1348941jC_uQGLXsqC78v7QKm8z"
+gitlab_runner_token: "GR1348941zpfTxtw-xt2zY8RwQe1S"
 
 # GitLab Runner Docker settings
 gitlab_runner_image: "gitlab/gitlab-runner:latest"
@@ -9,7 +9,7 @@ gitlab_runner_container_name: "gitlab-runner"
 gitlab_runner_config_dir: "/srv/gitlab-runner/config"
 
 # Runner registration settings
-gitlab_runner_url: "http://13.38.104.2"  
+gitlab_runner_url: "http://13.38.249.255"  
 gitlab_runner_description: "Docker Runner for portfolio-ans-terra-docker"
 gitlab_runner_executor: "docker"
 gitlab_runner_docker_image: "alpine:latest"
