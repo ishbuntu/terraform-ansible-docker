@@ -69,6 +69,9 @@ deploy:
     - echo "🚀 Deploying to EC2..."
     - echo "📁 Copying application files..."
     - scp -r docker-app/ ec2-user@$EC2_HOST:/home/ec2-user/
-    - echo "🐳 Building and running on EC2..."
-    - ssh ec2-user@$EC2_HOST 'cd docker-app && docker build -t myapp:latest . && docker stop portfolio-app || true && docker rm portfolio-app || true && docker run -d --name portfolio-app -p 80:5000 myapp:latest'
+    - echo "🛑 Stopping existing containers..."
+    - ssh ec2-user@$EC2_HOST 'docker stop myapp || true'
+    - ssh ec2-user@$EC2_HOST 'docker rm myapp || true'
+    - echo "🐳 Building and running new container..."
+    - ssh ec2-user@$EC2_HOST 'cd docker-app && docker build -t myapp:latest . && docker run -d --name myapp -p 80:5000 myapp:latest'
 
