@@ -8,33 +8,52 @@ variables:
   IMAGE_NAME: "myapp"
   TAG: "latest"
 
+# ------------------------
+# ✅ TEST STAGE
+# ------------------------
 test:
   stage: test
   image: python:3.11
   before_script:
+    - cd docker-app
     - python -m pip install --upgrade pip
     - pip install -r requirements.txt
   script:
     - echo "🔍 Running Flask tests..."
     - python -m unittest discover -s tests
 
+# ------------------------
+# ✅ SCAN STAGE
+# ------------------------
 scan:
   stage: scan
-  image: aquasec/trivy:latest
+  image: docker:latest
+  services:
+    - docker:dind
+  before_script:
+    - cd docker-app
+    - docker build -t $IMAGE_NAME:$TAG .
   script:
     - echo "🔐 Scanning Docker image for vulnerabilities..."
-    - docker build -t $IMAGE_NAME:$TAG .
-    - trivy image --exit-code 0 --severity HIGH,CRITICAL $IMAGE_NAME:$TAG
+    - docker run --rm -v /var/run/docker.sock:/var/run/docker.sock aquasec/trivy image --exit-code 0 --severity HIGH,CRITICAL $IMAGE_NAME:$TAG
 
+# ------------------------
+# ✅ BUILD STAGE
+# ------------------------
 build:
   stage: build
   image: docker:latest
   services:
     - docker:dind
+  before_script:
+    - cd docker-app
   script:
     - echo "🐳 Building Docker image..."
     - docker build -t $IMAGE_NAME:$TAG .
 
+# ------------------------
+# ✅ DEPLOY STAGE
+# ------------------------
 deploy:
   stage: deploy
   image: alpine:latest
@@ -45,9 +64,9 @@ deploy:
     - mkdir -p ~/.ssh
     - echo "$SSH_PRIVATE_KEY" | tr -d '\r' > ~/.ssh/id_rsa
     - chmod 600 ~/.ssh/id_rsa
-    # Disable strict host checking 
     - echo -e "Host *\n\tStrictHostKeyChecking no\n" > ~/.ssh/config
   script:
     - echo "🚀 Deploying to EC2..."
-    - scp docker-compose.yml ec2-user@$EC2_IP:/home/ec2-user/
+    - scp docker-app/docker-compose.yml ec2-user@$EC2_IP:/home/ec2-user/
     - ssh ec2-user@$EC2_IP 'docker-compose -f /home/ec2-user/docker-compose.yml up -d --build'
+
