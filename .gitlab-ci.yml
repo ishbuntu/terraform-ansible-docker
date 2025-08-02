@@ -1,13 +1,14 @@
 stages:
   - test
-  - scan
   - build
+  - scan
   - deploy
 
-# Global Variables 
 variables:
   IMAGE_NAME: "myapp"
   TAG: "latest"
+  DOCKER_HOST: "tcp://docker:2375"
+  DOCKER_TLS_CERTDIR: ""  # Required to disable TLS for DinD
 
 # ------------------------
 # ✅ TEST STAGE
@@ -24,25 +25,6 @@ test:
     - python -m unittest discover -s tests
 
 # ------------------------
-# ✅ SCAN STAGE
-# ------------------------
-scan:
-  stage: scan
-  image: docker:latest
-  services:
-    - name: docker:dind
-      alias: docker
-  variables:
-    DOCKER_HOST: "tcp://docker:2375/"
-    DOCKER_TLS_CERTDIR: ""  # Disable TLS certs 
-  before_script:
-    - cd docker-app
-    - docker build -t $IMAGE_NAME:$TAG .
-  script:
-    - echo "🔐 Scanning Docker image for vulnerabilities..."
-    - docker run --rm -v /var/run/docker.sock:/var/run/docker.sock aquasec/trivy image --exit-code 0 --severity HIGH,CRITICAL $IMAGE_NAME:$TAG
-
-# ------------------------
 # ✅ BUILD STAGE
 # ------------------------
 build:
@@ -51,14 +33,27 @@ build:
   services:
     - name: docker:dind
       alias: docker
-  variables:
-    DOCKER_HOST: "tcp://docker:2375/"
-    DOCKER_TLS_CERTDIR: ""  # Disable TLS certs
   before_script:
     - cd docker-app
   script:
     - echo "🐳 Building Docker image..."
     - docker build -t $IMAGE_NAME:$TAG .
+
+# ------------------------
+# ✅ SCAN STAGE (uses image from build)
+# ------------------------
+scan:
+  stage: scan
+  image: docker:latest
+  services:
+    - name: docker:dind
+      alias: docker
+  before_script:
+    - cd docker-app
+  script:
+    - echo "🔐 Scanning Docker image for vulnerabilities..."
+    - docker build -t $IMAGE_NAME:$TAG .
+    - docker run --rm aquasec/trivy image --exit-code 0 --severity HIGH,CRITICAL $IMAGE_NAME:$TAG
 
 # ------------------------
 # ✅ DEPLOY STAGE
@@ -77,5 +72,5 @@ deploy:
   script:
     - echo "🚀 Deploying to EC2..."
     - scp docker-app/docker-compose.yml ec2-user@$EC2_IP:/home/ec2-user/
-    - ssh ec2-user@$EC2_IP 'docker-compose -f /home/ec2-user/docker-compose.yml up -d --build'
+    - ssh ec2-user@$EC2_IP 'docker-compose -f /home/ec2-user/docker-co_
 
