@@ -4,9 +4,11 @@ stages:
   - build
   - deploy
 
+# Global Variables 
 variables:
   IMAGE_NAME: "myapp"
   TAG: "latest"
+
 
 # ------------------------
 # ✅ TEST STAGE
@@ -30,6 +32,10 @@ scan:
   image: docker:latest
   services:
     - docker:dind
+    - alias: docker 
+  varialbes: 
+    DOCKER_HOST: "tcp://docker:2375/"
+    DOCKER_TLS_CERTDIR: "" # << Disable TLS certs for DinD 
   before_script:
     - cd docker-app
     - docker build -t $IMAGE_NAME:$TAG .
