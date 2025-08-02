@@ -52,7 +52,7 @@ scan:
     - docker run --rm -v /var/run/docker.sock:/var/run/docker.sock aquasec/trivy image --exit-code 0 --severity HIGH,CRITICAL $IMAGE_NAME:$TAG
 
 # ------------------------
-# ✅ DEPLOY STAGE
+# ✅ DEPLOY STAGE (FIXED!)
 # ------------------------
 deploy:
   stage: deploy
@@ -60,13 +60,15 @@ deploy:
   only:
     - main
   before_script:
-    - apk add --no-cache openssh
+    - apk add --no-cache openssh rsync
     - mkdir -p ~/.ssh
     - echo "$SSH_PRIVATE_KEY" | tr -d '\r' > ~/.ssh/id_rsa
     - chmod 600 ~/.ssh/id_rsa
     - echo -e "Host *\n\tStrictHostKeyChecking no\n" > ~/.ssh/config
   script:
     - echo "🚀 Deploying to EC2..."
-    - scp docker-app/docker-compose.yml ec2-user@$EC2_IP:/home/ec2-user/
-    - ssh ec2-user@$EC2_IP 'docker-compose -f /home/ec2-user/docker-compose.yml up -d'
+    - echo "📁 Copying application files..."
+    - scp -r docker-app/ ec2-user@$EC2_IP:/home/ec2-user/
+    - echo "🐳 Building and running on EC2..."
+    - ssh ec2-user@$EC2_IP 'cd docker-app && docker build -t myapp:latest . && docker stop portfolio-app || true && docker rm portfolio-app || true && docker run -d --name portfolio-app -p 80:5000 myapp:latest'
 
