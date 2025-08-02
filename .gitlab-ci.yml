@@ -7,8 +7,6 @@ stages:
 variables:
   IMAGE_NAME: "myapp"
   TAG: "latest"
-  DOCKER_HOST: "tcp://docker:2375"
-  DOCKER_TLS_CERTDIR: ""  # Required to disable TLS for DinD
 
 # ------------------------
 # ✅ TEST STAGE
@@ -25,14 +23,11 @@ test:
     - python -m unittest discover -s tests
 
 # ------------------------
-# ✅ BUILD STAGE
+# ✅ BUILD STAGE (SIMPLIFIED - NO DIND!)
 # ------------------------
 build:
   stage: build
   image: docker:latest
-  services:
-    - name: docker:dind
-      alias: docker
   before_script:
     - cd docker-app
   script:
@@ -40,14 +35,11 @@ build:
     - docker build -t $IMAGE_NAME:$TAG .
 
 # ------------------------
-# ✅ SCAN STAGE (uses image from build)
+# ✅ SCAN STAGE (SIMPLIFIED - NO DIND!)
 # ------------------------
 scan:
   stage: scan
   image: docker:latest
-  services:
-    - name: docker:dind
-      alias: docker
   before_script:
     - cd docker-app
   script:
@@ -72,5 +64,5 @@ deploy:
   script:
     - echo "🚀 Deploying to EC2..."
     - scp docker-app/docker-compose.yml ec2-user@$EC2_IP:/home/ec2-user/
-    - ssh ec2-user@$EC2_IP 'docker-compose -f /home/ec2-user/docker-co_
+    - ssh ec2-user@$EC2_IP 'docker-compose -f /home/ec2-user/docker-compose.yml up -d'
 
