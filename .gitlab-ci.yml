@@ -9,7 +9,6 @@ variables:
   IMAGE_NAME: "myapp"
   TAG: "latest"
 
-
 # ------------------------
 # ✅ TEST STAGE
 # ------------------------
@@ -31,11 +30,11 @@ scan:
   stage: scan
   image: docker:latest
   services:
-    - docker:dind
-    - alias: docker 
-  variables: 
+    - name: docker:dind
+      alias: docker
+  variables:
     DOCKER_HOST: "tcp://docker:2375/"
-    DOCKER_TLS_CERTDIR: "" # << Disable TLS certs for DinD 
+    DOCKER_TLS_CERTDIR: ""  # Disable TLS certs 
   before_script:
     - cd docker-app
     - docker build -t $IMAGE_NAME:$TAG .
@@ -50,7 +49,11 @@ build:
   stage: build
   image: docker:latest
   services:
-    - docker:dind
+    - name: docker:dind
+      alias: docker
+  variables:
+    DOCKER_HOST: "tcp://docker:2375/"
+    DOCKER_TLS_CERTDIR: ""  # Disable TLS certs
   before_script:
     - cd docker-app
   script:
