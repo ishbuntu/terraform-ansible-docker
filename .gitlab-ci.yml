@@ -36,7 +36,7 @@ build:
     - docker build -t $IMAGE_NAME:$TAG .
 
 # ------------------------
-# ✅ SCAN STAGE (SIMPLIFIED - NO DIND!)
+# ✅ SCAN STAGE (FIXED!)
 # ------------------------
 scan:
   stage: scan
@@ -46,7 +46,10 @@ scan:
   script:
     - echo "🔐 Scanning Docker image for vulnerabilities..."
     - docker build -t $IMAGE_NAME:$TAG .
-    - docker run --rm aquasec/trivy image --exit-code 0 --severity HIGH,CRITICAL $IMAGE_NAME:$TAG
+    - echo "📋 Listing available images..."
+    - docker images
+    - echo "🔍 Running Trivy scan..."
+    - docker run --rm -v /var/run/docker.sock:/var/run/docker.sock aquasec/trivy image --exit-code 0 --severity HIGH,CRITICAL $IMAGE_NAME:$TAG
 
 # ------------------------
 # ✅ DEPLOY STAGE
