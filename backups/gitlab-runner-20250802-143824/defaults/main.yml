@@ -12,7 +12,7 @@ gitlab_runner_config_dir: "/srv/gitlab-runner/config"
 gitlab_runner_url: "http://13.38.249.255"  
 gitlab_runner_description: "Docker Runner for portfolio-ans-terra-docker"
 gitlab_runner_executor: "docker"
-gitlab_runner_docker_image: "docker:latest"
+gitlab_runner_docker_image: "alpine:latest"
 
 # Runner configuration
 gitlab_runner_concurrent: 1
@@ -20,13 +20,3 @@ gitlab_runner_check_interval: 0
 
 # Docker compose configuration
 docker_compose_file: "/srv/gitlab-runner/docker-compose.yml"
-
-# DinD (Docker-in-Docker) configuration
-gitlab_runner_privileged: true
-gitlab_runner_services: ["docker:dind"]
-gitlab_runner_volumes: ["/certs/client", "/cache"]
-gitlab_runner_environment:
-  - "DOCKER_HOST=tcp://docker:2376"
-  - "DOCKER_TLS_CERTDIR=/certs"
-  - "DOCKER_TLS_VERIFY=1"
-  - "DOCKER_CERT_PATH=/certs/client"

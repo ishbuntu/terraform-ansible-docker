@@ -1,0 +1,32 @@
+version: '3.8'
+
+services:
+  gitlab:
+    image: gitlab/gitlab-ce:latest
+    container_name: gitlab
+    hostname: 'gitlab.ish'
+    restart: always
+    ports:
+      - '80:80'
+      - '443:443'
+      - '22:22' 
+    volumes:
+      - /srv/gitlab/config:/etc/gitlab
+      - /srv/gitlab/logs:/var/log/gitlab
+      - /srv/gitlab/data:/var/opt/gitlab
+    environment:
+      GITLAB_OMNIBUS_CONFIG: |
+        external_url 'http://13.38.104.2'
+        gitlab_rails['gitlab_shell_ssh_port'] = 22
+
+  gitlab-runner:
+    image: gitlab/gitlab-runner:latest
+    container_name: gitlab-runner
+    restart: always
+    volumes:
+      - '/srv/gitlab-runner/config:/etc/gitlab-runner'
+      - '/var/run/docker.sock:/var/run/docker.sock'
+    depends_on:
+      - gitlab 
+
+

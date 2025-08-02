@@ -1,0 +1,3 @@
+---
+- name: Prepare GITLAB host - [CREATE DIRS] && [BUILD DOCKER IMG] 
+  include_tasks: prepare-build-gitlab-runner.yml
