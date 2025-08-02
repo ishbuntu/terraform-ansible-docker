@@ -34,15 +34,5 @@
     --description "{{ gitlab_runner_description }}"
     --executor "{{ gitlab_runner_executor }}"
     --docker-image "{{ gitlab_runner_docker_image }}"
-    --docker-privileged="{{ gitlab_runner_privileged }}"
-    --docker-volumes="{{ gitlab_runner_volumes | join(',') }}"
   become: yes
-
-- name: Configure GitLab Runner for DinD
-  template:
-    src: config.toml.j2
-    dest: "{{ gitlab_runner_config_dir }}/config.toml"
-    mode: '0600'
-  become: yes
-  notify: restart gitlab runner
 
