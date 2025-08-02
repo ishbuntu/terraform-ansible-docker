@@ -4,6 +4,7 @@ services:
     image: {{ gitlab_runner_image }}
     container_name: {{ gitlab_runner_container_name }}
     restart: always
+    privileged: true
     volumes:
       - '{{ gitlab_runner_config_dir }}:/etc/gitlab-runner'
       - '/var/run/docker.sock:/var/run/docker.sock'
