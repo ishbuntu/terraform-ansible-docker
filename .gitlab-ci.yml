@@ -24,7 +24,7 @@ test:
     - python -m unittest discover -s tests
 
 # ------------------------
-# ✅ BUILD STAGE (SIMPLIFIED - NO DIND!)
+# ✅ BUILD STAGE 
 # ------------------------
 build:
   stage: build
@@ -36,7 +36,7 @@ build:
     - docker build -t $IMAGE_NAME:$TAG .
 
 # ------------------------
-# ✅ SCAN STAGE (FIXED!)
+# ✅ SCAN STAGE 
 # ------------------------
 scan:
   stage: scan
@@ -52,7 +52,7 @@ scan:
     - docker run --rm -v /var/run/docker.sock:/var/run/docker.sock aquasec/trivy image --exit-code 0 --severity HIGH,CRITICAL $IMAGE_NAME:$TAG
 
 # ------------------------
-# ✅ DEPLOY STAGE (FIXED!)
+# ✅ DEPLOY STAGE 
 # ------------------------
 deploy:
   stage: deploy
@@ -68,7 +68,7 @@ deploy:
   script:
     - echo "🚀 Deploying to EC2..."
     - echo "📁 Copying application files..."
-    - scp -r docker-app/ ec2-user@$EC2_IP:/home/ec2-user/
+    - scp -r docker-app/ ec2-user@$EC2_HOST:/home/ec2-user/
     - echo "🐳 Building and running on EC2..."
-    - ssh ec2-user@$EC2_IP 'cd docker-app && docker build -t myapp:latest . && docker stop portfolio-app || true && docker rm portfolio-app || true && docker run -d --name portfolio-app -p 80:5000 myapp:latest'
+    - ssh ec2-user@$EC2_HOST'cd docker-app && docker build -t myapp:latest . && docker stop portfolio-app || true && docker rm portfolio-app || true && docker run -d --name portfolio-app -p 80:5000 myapp:latest'
 
